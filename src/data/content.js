@@ -13,7 +13,7 @@ export const SERVICES = [
     title: 'Custom Software Development',
     icon: 'Code2',
     description: 'We create tailored software solutions that simplify complex business operations, solve unique challenges, improve productivity, and support long-term business growth.',
-    color: '#477BFF',
+    color: '#FFFFFF',
   },
   {
     id: '02',
@@ -55,7 +55,7 @@ export const SERVICES = [
     title: 'Business Automation',
     icon: 'Zap',
     description: 'We help businesses automate repetitive tasks, streamline workflows, connect business tools, and improve operational efficiency through intelligent automation solutions.',
-    color: '#477BFF',
+    color: '#FFFFFF',
     highlight: true,
     examples: [
       'Automated lead management and follow-ups',
@@ -103,7 +103,7 @@ export const PORTFOLIO_PROJECTS = [
     category: 'Custom Software Development',
     description: 'A comprehensive financial management platform that streamlines expense tracking, invoice management, and business reporting for mid-size enterprises.',
     tech: ['React', 'Node.js', 'PostgreSQL', 'AWS'],
-    color: '#477BFF',
+    color: '#FFFFFF',
   },
   {
     id: 2,
@@ -119,7 +119,7 @@ export const PORTFOLIO_PROJECTS = [
     category: 'Business Automation',
     description: 'An intelligent workflow automation system that eliminated manual data entry and connected multiple business tools, saving 20+ hours per week.',
     tech: ['Python', 'Zapier', 'REST APIs', 'Notion'],
-    color: '#477BFF',
+    color: '#FFFFFF',
   },
   {
     id: 4,

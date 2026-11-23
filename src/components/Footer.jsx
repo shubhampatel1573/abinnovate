@@ -1,203 +1,152 @@
 import React from 'react'
-import { Mail, MapPin, ArrowRight } from 'lucide-react'
-import { NAV_LINKS, SERVICES, CONTACT_INFO } from '../data/content'
+import { Link } from 'react-router-dom'
 
-// Inline social SVGs (lucide-react version installed lacks these)
-const LinkedinIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="15" height="15">
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-    <rect width="4" height="12" x="2" y="9"/>
-    <circle cx="4" cy="4" r="2"/>
-  </svg>
-)
-const TwitterIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="15" height="15">
-    <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>
-  </svg>
-)
-const InstagramIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="15" height="15">
-    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
-  </svg>
-)
-
-function scrollTo(id) {
-  if (id === 'home') { window.scrollTo({ top: 0, behavior: 'smooth' }); return }
-  const el = document.getElementById(id)
-  if (el) el.scrollIntoView({ behavior: 'smooth' })
+function LogoMark({ size = 28 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <path d="M16 2.2L29.2 29.2H2.8L16 2.2Z" fill="#3D6BFF" />
+    </svg>
+  )
 }
 
-const Logo = () => (
-  <div className="flex items-center gap-3 select-none">
-    <div className="relative w-9 h-9 flex-shrink-0">
-      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-        <defs>
-          <linearGradient id="footerLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#477BFF" />
-            <stop offset="100%" stopColor="#8B5CF6" />
-          </linearGradient>
-        </defs>
-        <rect width="36" height="36" rx="10" fill="url(#footerLogoGrad)" />
-        <path d="M7 27L12.5 10L18 27M9.2 21H15.8" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M21 10H26.5C28.7 10 30.5 11.8 30.5 14C30.5 16.2 28.7 18 26.5 18H21V10Z" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M21 18H27C29.4 18 31 19.8 31 22C31 24.2 29.2 26 26.8 26H21V18Z" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    </div>
-    <div className="flex flex-col leading-tight">
-      <span className="font-display font-bold text-base tracking-wider text-white">
-        AB <span className="text-gradient">INNOVATE</span>
-      </span>
-      <span className="text-[9px] tracking-[0.2em] text-[#A1A1AA] uppercase font-medium">
-        Technology Partner
-      </span>
-    </div>
-  </div>
-)
+const COMPANY_LINKS = [
+  ['Home', '/'],
+  ['About', '/about'],
+  ['Services', '/services'],
+  ['Portfolio', '/work'],
+  ['Contact', '/contact'],
+]
+
+const SERVICE_LINKS = [
+  'Custom Software & Web Apps',
+  'Mobile App Development',
+  'Shopify Development',
+]
+
+const GRID = {
+  backgroundImage: `
+    linear-gradient(rgba(120, 150, 190, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 150, 190, 0.16) 1px, transparent 1px)
+  `,
+  backgroundSize: '72px 72px',
+}
 
 export default function Footer() {
-  const year = new Date().getFullYear()
-
   return (
-    <footer
-      className="relative pt-16 pb-8 border-t border-[#252B38]"
-      style={{ background: '#0B0D12' }}
-    >
-      {/* Top shimmer */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{
-          background:
-            'linear-gradient(90deg, transparent 0%, rgba(71,123,255,0.4) 30%, rgba(139,92,246,0.4) 70%, transparent 100%)',
-        }}
-      />
+    <footer style={{ background: '#070B16' }}>
+      {/* Upper CTA */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={GRID} />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 42% 90% at 92% 48%, rgba(37, 78, 190, 0.42) 0%, rgba(37, 78, 190, 0.12) 42%, transparent 70%)',
+          }}
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-28 md:pt-28 md:pb-32">
+          <h2
+            className="font-bold uppercase text-white"
+            style={{
+              fontSize: 'clamp(1.9rem, 3.35vw, 3rem)',
+              letterSpacing: '-0.03em',
+              lineHeight: 1.05,
+            }}
+          >
+            Ready to Build Something Great?
+          </h2>
+          <p className="mt-5 mb-9 text-[15px] leading-relaxed" style={{ color: '#A7ADB6' }}>
+            Let’s turn your idea into a product your users will love.
+          </p>
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-2.5 px-5 py-3 text-sm font-semibold rounded-md transition-all duration-200 hover:brightness-110 active:scale-[0.98]"
+            style={{ background: '#2F56D4', color: '#fff' }}
+          >
+            Start a Project
+            <span aria-hidden>→</span>
+          </Link>
+        </div>
+      </section>
 
-      <div className="max-w-7xl mx-auto px-5 lg:px-8">
-        {/* Main footer grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-[#252B38]">
-          {/* Col 1 — Brand */}
-          <div className="lg:col-span-1">
-            <Logo />
-            <p className="mt-5 text-sm text-[#A1A1AA] leading-relaxed max-w-xs">
-              Your technology partner for what's next. We help businesses innovate, simplify
-              operations, and accelerate growth through intelligent digital solutions.
-            </p>
-            <p
-              className="mt-5 text-xs font-bold tracking-[0.2em] uppercase"
-              style={{
-                background: 'linear-gradient(90deg, #477BFF, #8B5CF6)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              BUILDING WHAT'S NEXT.
-            </p>
+      {/* Footer columns */}
+      <div className="relative">
+        <div
+          className="absolute top-0 left-0 right-0 h-40 pointer-events-none"
+          style={{
+            ...GRID,
+            WebkitMaskImage: 'linear-gradient(to bottom, #000 0%, transparent 100%)',
+            maskImage: 'linear-gradient(to bottom, #000 0%, transparent 100%)',
+          }}
+        />
 
-            {/* Social */}
-            <div className="flex items-center gap-2.5 mt-6">
-              {[
-                { href: CONTACT_INFO.linkedin, Icon: LinkedinIcon, label: 'LinkedIn' },
-                { href: CONTACT_INFO.twitter, Icon: TwitterIcon, label: 'Twitter' },
-                { href: CONTACT_INFO.instagram, Icon: InstagramIcon, label: 'Instagram' },
-              ].map(({ href, Icon, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="w-9 h-9 rounded-lg flex items-center justify-center border border-[#252B38] text-[#A1A1AA] hover:text-[#477BFF] hover:border-[#477BFF55] hover:bg-[#477BFF0D] transition-all duration-200"
-                >
-                  <Icon size={15} />
-                </a>
-              ))}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pt-16 pb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12 pb-14">
+            <div className="col-span-2 md:col-span-1 md:pr-6">
+              <Link to="/" className="inline-flex items-center gap-2.5 mb-5 select-none">
+                <LogoMark size={26} />
+                <span className="font-bold text-[17px] tracking-tight text-white">AB Innovate</span>
+              </Link>
+              <p className="text-[13.5px] leading-[1.7]" style={{ color: '#9AA1AB', maxWidth: '230px' }}>
+                Turning Ideas into Innovative Digital Solutions. India-based software studio delivering world-class products.
+              </p>
+            </div>
+
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.18em] font-semibold mb-6" style={{ color: '#8B93A0' }}>
+                Company
+              </p>
+              <ul className="flex flex-col gap-4">
+                {COMPANY_LINKS.map(([label, to]) => (
+                  <li key={to}>
+                    <Link to={to} className="text-[14.5px] transition-colors hover:text-white" style={{ color: '#C9CED6' }}>
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.18em] font-semibold mb-6" style={{ color: '#8B93A0' }}>
+                Services
+              </p>
+              <ul className="flex flex-col gap-4">
+                {SERVICE_LINKS.map(s => (
+                  <li key={s}>
+                    <Link to="/services" className="text-[14.5px] transition-colors hover:text-white" style={{ color: '#C9CED6' }}>
+                      {s}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="col-span-2 md:col-span-1">
+              <p className="text-[11px] uppercase tracking-[0.18em] font-semibold mb-6" style={{ color: '#8B93A0' }}>
+                Contact
+              </p>
+              <ul className="flex flex-col gap-4">
+                <li>
+                  <a href="mailto:hello@abinnovate.in" className="text-[14.5px] transition-colors hover:text-white" style={{ color: '#C9CED6' }}>
+                    hello@abinnovate.in
+                  </a>
+                </li>
+                <li>
+                  <a href="https://abinnovate.in" target="_blank" rel="noopener noreferrer" className="text-[14.5px] transition-colors hover:text-white" style={{ color: '#C9CED6' }}>
+                    abinnovate.in
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
 
-          {/* Col 2 — Navigation */}
-          <div>
-            <h4 className="text-xs font-bold tracking-[0.18em] text-white uppercase mb-5">
-              Navigate
-            </h4>
-            <ul className="flex flex-col gap-3">
-              {NAV_LINKS.map((link) => (
-                <li key={link.label}>
-                  <button
-                    onClick={() => scrollTo(link.href.replace('#', ''))}
-                    className="text-sm text-[#A1A1AA] hover:text-white transition-colors duration-200 text-left"
-                  >
-                    {link.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
+          <div
+            className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pt-6"
+            style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}
+          >
+            <p className="text-xs" style={{ color: '#7E8694' }}>© 2026 AB Innovate. All rights reserved.</p>
+            <p className="text-xs" style={{ color: '#7E8694' }}>Built in India — Delivered Globally</p>
           </div>
-
-          {/* Col 3 — Services */}
-          <div>
-            <h4 className="text-xs font-bold tracking-[0.18em] text-white uppercase mb-5">
-              Services
-            </h4>
-            <ul className="flex flex-col gap-3">
-              {SERVICES.map((s) => (
-                <li key={s.id}>
-                  <button
-                    onClick={() => scrollTo('services')}
-                    className="text-sm text-[#A1A1AA] hover:text-white transition-colors duration-200 text-left"
-                  >
-                    {s.title}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Col 4 — Contact */}
-          <div>
-            <h4 className="text-xs font-bold tracking-[0.18em] text-white uppercase mb-5">
-              Contact
-            </h4>
-            <ul className="flex flex-col gap-4">
-              <li>
-                <a
-                  href={`mailto:${CONTACT_INFO.email}`}
-                  className="flex items-start gap-2.5 text-sm text-[#A1A1AA] hover:text-white transition-colors duration-200"
-                >
-                  <Mail size={15} className="mt-0.5 text-[#477BFF] flex-shrink-0" />
-                  {CONTACT_INFO.email}
-                </a>
-              </li>
-              <li>
-                <div className="flex items-start gap-2.5 text-sm text-[#A1A1AA]">
-                  <MapPin size={15} className="mt-0.5 text-[#477BFF] flex-shrink-0" />
-                  {CONTACT_INFO.location}
-                </div>
-              </li>
-            </ul>
-
-            <button
-              onClick={() => scrollTo('contact')}
-              className="group flex items-center gap-2 mt-7 text-sm font-semibold text-[#477BFF] hover:text-white transition-colors duration-200"
-            >
-              Start a Project
-              <ArrowRight
-                size={15}
-                className="group-hover:translate-x-1 transition-transform duration-200"
-              />
-            </button>
-          </div>
-        </div>
-
-        {/* Bottom bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8">
-          <p className="text-xs text-[#A1A1AA]">
-            © {year} AB INNOVATE. All rights reserved.
-          </p>
-          <p className="text-xs text-[#A1A1AA44] tracking-widest uppercase">
-            Ideas Into Innovation. Technology Into Growth.
-          </p>
         </div>
       </div>
     </footer>

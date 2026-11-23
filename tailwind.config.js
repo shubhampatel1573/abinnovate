@@ -6,7 +6,7 @@ export default {
       colors: {
         'bg-primary': '#0B0D12',
         'bg-secondary': '#11151E',
-        'accent-blue': '#477BFF',
+        'accent-blue': '#FFFFFF',
         'accent-violet': '#8B5CF6',
         'text-primary': '#FFFFFF',
         'text-secondary': '#A1A1AA',

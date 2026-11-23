@@ -1,198 +1,127 @@
 import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { NavLink, Link, useLocation } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
-import { NAV_LINKS } from '../data/content'
 
-const Logo = () => (
-  <a
-    href="#home"
-    onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
-    className="flex items-center gap-3 group select-none"
-  >
-    <div className="relative w-9 h-9 flex-shrink-0">
-      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-        <defs>
-          <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#477BFF" />
-            <stop offset="100%" stopColor="#8B5CF6" />
-          </linearGradient>
-        </defs>
-        <rect width="36" height="36" rx="10" fill="url(#logoGrad)" />
-        <path d="M7 27L12.5 10L18 27M9.2 21H15.8" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M21 10H26.5C28.7 10 30.5 11.8 30.5 14C30.5 16.2 28.7 18 26.5 18H21V10Z" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M21 18H27C29.4 18 31 19.8 31 22C31 24.2 29.2 26 26.8 26H21V18Z" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    </div>
-    <div className="flex flex-col leading-tight">
-      <span className="font-display font-bold text-base tracking-wider text-white group-hover:opacity-90 transition-opacity">
-        AB <span className="text-gradient">INNOVATE</span>
-      </span>
-      <span className="text-[9px] tracking-[0.2em] text-[#A1A1AA] uppercase font-medium hidden sm:block">
-        Technology Partner
-      </span>
-    </div>
-  </a>
-)
+const NAV = [
+  { label: 'Home', to: '/' },
+  { label: 'Services', to: '/services' },
+  { label: 'About', to: '/about' },
+  { label: 'Our Work', to: '/work' },
+  { label: 'Contact', to: '/contact' },
+]
+
+function LogoMark({ size = 32 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="18,2 34,32 2,32" fill="none" stroke="#477BFF" strokeWidth="2.5" strokeLinejoin="round" />
+      <polygon points="18,10 28,28 8,28" fill="#477BFF" opacity="0.3" />
+      <line x1="10" y1="24" x2="26" y2="24" stroke="#477BFF" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  )
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState('home')
+  const [open, setOpen] = useState(false)
+  const location = useLocation()
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 30)
-      const sectionIds = ['home', 'services', 'about', 'portfolio', 'process', 'contact']
-      let current = 'home'
-      for (const id of sectionIds) {
-        const el = document.getElementById(id)
-        if (el) {
-          const rect = el.getBoundingClientRect()
-          if (rect.top <= 120) current = id
-        }
-      }
-      setActiveSection(current)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    const fn = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', fn, { passive: true })
+    return () => window.removeEventListener('scroll', fn)
   }, [])
 
-  // Lock body scroll when mobile menu open
-  useEffect(() => {
-    document.body.style.overflow = mobileOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
-  }, [mobileOpen])
-
-  const handleNavClick = (href) => {
-    setMobileOpen(false)
-    const id = href.replace('#', '')
-    if (id === 'home') { window.scrollTo({ top: 0, behavior: 'smooth' }); return }
-    const el = document.getElementById(id)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  const isActive = (href) => activeSection === href.replace('#', '')
+  useEffect(() => { setOpen(false) }, [location])
+  useEffect(() => { document.body.style.overflow = open ? 'hidden' : '' }, [open])
 
   return (
     <>
-      <motion.nav
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? 'bg-[rgba(11,13,18,0.85)] backdrop-blur-xl border-b border-[#252B38] shadow-xl shadow-black/30'
-            : 'bg-transparent'
-        }`}
+      <header
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        style={{
+          background: scrolled ? 'rgba(11,13,18,0.95)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(20px)' : 'none',
+          WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
+          borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : '1px solid transparent',
+        }}
       >
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-18">
-            <Logo />
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2.5 select-none">
+            <LogoMark size={30} />
+            <span className="font-bold text-base tracking-tight text-white">
+              AB Innovate
+            </span>
+          </Link>
 
-            {/* Desktop Nav Links */}
-            <div className="hidden lg:flex items-center gap-1">
-              {NAV_LINKS.map((link) => (
-                <button
-                  key={link.label}
-                  onClick={() => handleNavClick(link.href)}
-                  className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 group ${
-                    isActive(link.href) ? 'text-white' : 'text-[#A1A1AA] hover:text-white'
-                  }`}
-                >
-                  {link.label}
-                  <span
-                    className={`absolute bottom-1 left-1/2 -translate-x-1/2 h-px transition-all duration-300 ${
-                      isActive(link.href)
-                        ? 'w-5 opacity-100'
-                        : 'w-0 opacity-0 group-hover:w-5 group-hover:opacity-100'
-                    }`}
-                    style={{ background: 'linear-gradient(90deg, #477BFF, #8B5CF6)' }}
-                  />
-                </button>
-              ))}
-            </div>
-
-            {/* Desktop CTA */}
-            <div className="hidden lg:flex items-center gap-4">
-              <button
-                onClick={() => handleNavClick('#contact')}
-                className="relative px-5 py-2.5 text-sm font-semibold text-white rounded-xl overflow-hidden group transition-transform duration-200 hover:scale-105"
-                style={{ background: 'linear-gradient(135deg, #477BFF 0%, #8B5CF6 100%)' }}
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-1">
+            {NAV.map((n) => (
+              <NavLink
+                key={n.to}
+                to={n.to}
+                end={n.to === '/'}
+                className={({ isActive }) =>
+                  `px-4 py-2 text-sm transition-colors duration-150 ${
+                    isActive ? 'text-white font-medium' : 'text-[#A1A1AA] hover:text-white'
+                  }`
+                }
               >
-                <span className="relative z-10">Let's Talk</span>
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ background: 'linear-gradient(135deg, #5B8DFF 0%, #9B6CF6 100%)' }}
-                />
-              </button>
-            </div>
+                {n.label}
+              </NavLink>
+            ))}
+          </nav>
 
-            {/* Mobile Hamburger */}
+          {/* CTA + hamburger */}
+          <div className="flex items-center gap-3">
+            <Link
+              to="/contact"
+              className="hidden md:inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold rounded-md transition-all duration-200 hover:brightness-110 active:scale-95"
+              style={{ background: '#2D4FD6', color: '#fff' }}
+            >
+              Start a Project <span aria-hidden>→</span>
+            </Link>
             <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden p-2 rounded-lg text-[#A1A1AA] hover:text-white hover:bg-white/5 transition-all"
+              onClick={() => setOpen(!open)}
+              className="md:hidden p-2 text-[#A1A1AA] hover:text-white transition-colors"
               aria-label="Toggle menu"
             >
-              <AnimatePresence mode="wait" initial={false}>
-                {mobileOpen ? (
-                  <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
-                    <X size={22} />
-                  </motion.div>
-                ) : (
-                  <motion.div key="open" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
-                    <Menu size={22} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {open ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
-      </motion.nav>
+      </header>
 
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40"
-            style={{ background: 'rgba(11,13,18,0.97)', backdropFilter: 'blur(20px)' }}
-          >
-            <div className="flex flex-col items-start justify-center h-full px-8 gap-2">
-              {NAV_LINKS.map((link, i) => (
-                <motion.button
-                  key={link.label}
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ delay: i * 0.06, duration: 0.3 }}
-                  onClick={() => handleNavClick(link.href)}
-                  className={`text-left py-4 text-3xl font-black font-display w-full border-b transition-colors duration-200 ${
-                    isActive(link.href)
-                      ? 'text-gradient border-[#477BFF44]'
-                      : 'text-[#A1A1AA] hover:text-white border-[#252B38]'
-                  }`}
-                >
-                  {link.label}
-                </motion.button>
-              ))}
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ delay: NAV_LINKS.length * 0.06 + 0.1, duration: 0.3 }}
-                onClick={() => handleNavClick('#contact')}
-                className="mt-8 w-full py-4 text-lg font-bold text-white rounded-2xl"
-                style={{ background: 'linear-gradient(135deg, #477BFF 0%, #8B5CF6 100%)' }}
+      {/* Mobile menu */}
+      {open && (
+        <div className="fixed inset-0 z-40 flex flex-col pt-16" style={{ background: '#0B0D12' }}>
+          <nav className="flex flex-col px-6 pt-8 gap-1">
+            {NAV.map((n) => (
+              <NavLink
+                key={n.to}
+                to={n.to}
+                end={n.to === '/'}
+                className={({ isActive }) =>
+                  `py-4 text-xl font-semibold border-b transition-colors ${
+                    isActive
+                      ? 'text-white border-[#477BFF]'
+                      : 'text-[#A1A1AA] border-[#252B38] hover:text-white'
+                  }`
+                }
               >
-                Let's Talk
-              </motion.button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                {n.label}
+              </NavLink>
+            ))}
+            <Link
+              to="/contact"
+              className="mt-6 py-3.5 text-center text-base font-semibold rounded-md"
+              style={{ background: '#2D4FD6', color: '#fff' }}
+            >
+              Start a Project →
+            </Link>
+          </nav>
+        </div>
+      )}
     </>
   )
 }
